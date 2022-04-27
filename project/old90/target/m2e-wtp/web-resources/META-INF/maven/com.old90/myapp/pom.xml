@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.old90</groupId>
+	<artifactId>myapp</artifactId>
+	<name>old90</name>
+	<packaging>war</packaging>
+	<version>1.0.0-BUILD-SNAPSHOT</version>
+	
+	<!-- 여기부터 복사해서 사용하세요. 위에는 제외한다. -->
+	<!-- 22.03.08 : 스프링 버전 5.0.7번으로 수정 / java-version : 1.8로 수정 -->
+	<properties>
+		<java-version>1.8</java-version>
+		<org.springframework-version>5.0.7.RELEASE</org.springframework-version>
+		<!-- 22.03.23 : AOP효율성 - 버전업 -->
+		<org.aspectj-version>1.9.0</org.aspectj-version> <!-- 초기값 : 1.6.10 -->
+		<org.slf4j-version>1.7.25</org.slf4j-version> <!-- 초기값 : 1.6.6 -->
+	<!-- 22.03.16 : 현재 진행하고 있는 프로젝트의 절대 위치로 변경해서 사용하셔야만 합니다. lombok lib를 설치하면 basedir 
+		없어짐 -->
+ 		<project.basedir>/Users/koo/eclipse/workspace/spring/old90</project.basedir>
+	</properties>
+	<dependencies>
+	
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework-version}</version>
+			<exclusions>
+				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+		<!-- AspectJ : 구조 프로그램  -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+		
+		<!-- 22.03.28 : 추가 -->
+		<!-- 연결 프로그램 -->
+		<!-- 주의사항 : AOP 테스트시 이게 없으면 오류가 난다. -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+		
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j-version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${org.slf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${org.slf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<!-- 22.03.08 : spring-test 추가-->
+		<!-- spring-test : 작성된 코드를 테스트 해보기 위해서 사용되는 인터페이스 포함 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
+		<!-- 22.03.08 : lombok 라이브러리 추가-->
+		<!-- provided: 프로젝트가 실행되기전에 실행해라. -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version> <!-- 22.03.08 : version - 1.2.17로 수정 -->
+		</dependency>
+
+		<!-- @Inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+
+		<!-- Servlet -->
+		<!-- 22.03.17 : javax.servlet 수정 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId> <!-- javax.servlet-api로 수정 -->
+			<version>3.1.0</version> <!-- 초기값 : 2.5 -->
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<!-- Test -->
+		<!-- 22.03.08 : version 4.12로 수정 -->
+		<dependency>
+			<groupId>junit</groupId> <!--junit : 테스트 하는 프로그램 -->
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>	
+		
+		<!-- 22.03.21 -->
+		<!-- ==== 전체 레이아웃 ==== -->
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>2.4.2</version>
+		</dependency>
+		
+		<!-- ===== DB 관련 =========== -->
+		<!-- Oracle-->
+		<!-- 22.03.10 추가 --> 
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.2.0.4</version>
+		</dependency>
+		
+		<!-- HikariCP : HikariCP는 Database와의 Connection pool 을 관리한다. -->
+		<!-- 22.03.10 추가 --> 
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+		
+		<!-- MyBatis ORM 라이브러리 -->
+		<!-- ORM(Object Relational Mapping) : 객체와 관계형 데이터베이스의 데이터를 자동으로 매핑(연결)해주는 것을 말한다. -->
+		<!-- 22.03.10 추가 --> 
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.4.6</version>
+		</dependency>
+		
+		<!-- MyBatis-Spring 라이브러리 : MyBatis와 Spring 연결 -->
+		<!-- 22.03.10 추가 --> 
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		
+		<!-- Spring transaction(동시에 2개 이상의 데이터 처리를 반드시 완성) 처리 위한 라이브러리 : commit, rollback -->
+		<!-- Transaction : 2개 이상의 쿼리를 하나의 커넥션으로 묶어 DB에 전송하고, 이 과정에서 발생할 경우 자동으로
+						   모든 과정을 원래대로 되돌려 놓습니다. -->
+		<!-- 22.03.10 추가 --> 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+		<!-- Spring db 처리 프로그램 -->
+		<!-- 22.03.10 추가 --> 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
+		<!-- 페이지 처리 -->
+		<dependency>  
+			<groupId>com.webjjang</groupId>
+			<artifactId>util.PageObject</artifactId>
+			<version>2.5</version>
+			<scope>system</scope>
+			<!-- lombok lib를 설치하면 오류가 난다. 해결 : 프로퍼트 등록 해준다. -->
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/pageObject.jar</systemPath>
+		</dependency>
+		
+		<!-- 22.03.16 - 파일 업로드 : 파일을 서버에 저장하지 않은 상태로 넘겨 준다. -->
+		<!-- 주의사항 : 프로젝트 베이스 추가 -->
+		<!--            <project.basedir>/Users/koo/eclipse/workspace/spring/ex00(addVersion)</project.basedir> -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+		
+		<!-- 22.03.18 -->
+		<!-- 파일 업로드 유틸 라이브러리 -->
+		<dependency>
+			<groupId>com.webjjang</groupId>
+			<artifactId>util.file.fileUtil</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!-- lombok lib를 설치하면 오류가 난다. 해결 : 프로퍼트 등록 해준다. -->
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/fileUtil.jar</systemPath>
+		</dependency>
+		
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<additionalProjectnatures>
+						<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+					</additionalProjectnatures>
+					<additionalBuildcommands>
+						<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+					</additionalBuildcommands>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration> <!-- 오류가나서 1.8로 수정 -->
+					<source>1.8</source>  <!-- 22.03.08 : ${java-verison} 으로 수정 -->
+					<target>1.8</target>  <!-- 22.03.08 : ${java-verison} 으로 수정(target: 실질적으로 돌아가는 컴퓨터) -->
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<configuration>
+					<mainClass>org.test.int1.Main</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+	
+	

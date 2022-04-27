@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.old90.member.mapper.MemberMapper">
+
+<!-- 1. 회원리스트 -->
+<select id="list" resultType="com.old90.member.vo.MemberVO">
+select rnum, id, name, nickName, birth, gender, tel, email, status, gradeNo, gradeName
+from(
+	select rownum rnum, id, name, nickName, birth, gender, tel, email, status, gradeNo, gradeName
+	from(
+		select m.id, m.name, m.nickName, m.birth, m.gender, m.tel, m.email, m.status, m.gradeNo, g.gradeName
+		from member m, grade g
+		where m.gradeNo = g.gradeNo
+		order by m.id
+		)
+	)
+	where rnum between #{startRow} and #{endRow}	
+</select>
+
+<!-- 1-2. 전체 데이터 개수 -->
+<select id="getTotalRow" resultType="long">
+	select count(*) from member
+</select>
+
+
+<!-- 2-1. 보기 -->
+<select id="view" resultType="com.old90.member.vo.MemberVO">
+	select m.id, m.name, m.nickName, m.birth, m.gender, m.tel, m.email, m.status,
+	m.gradeNo, g.gradeName, m.regDate
+	from member m, grade g
+	where (id = #{id}) and (m.gradeNo = g.gradeNo)
+</select>
+
+<!-- 3.회원가입 -->
+<insert id="write">
+	insert into member(id, pw, name, nickName, gender, birth, tel, email)
+	values(#{id}, #{pw}, #{name}, #{nickName}, #{gender}, #{birth}, #{tel}, #{email})
+</insert>
+
+<!-- 4.정보수정 -->
+<update id="update">
+	update member set name = #{name}, pw = #{pw}, nickName = #{nickName}, gender = #{gender},
+	birth = #{birth}, tel = #{tel}, email = #{email}
+	where id = #{id}
+</update>
+
+<!-- 5.탈퇴 -->
+<delete id="delete">
+	delete from member
+	where id = #{id}
+</delete>
+
+<!-- 6. 로그인 처리 -->
+<select id="login" resultType="com.old90.member.vo.LoginVO">
+	select m.id, m.name, m.nickName, m.gradeNo, g.gradeName
+	from member m, grade g 
+	where (id = #{id} and pw = #{pw}) and (m.gradeNo = g.gradeNo)
+</select>
+
+<!-- 7-1. 아이디 중복체크 -->
+<select id="idCheck" resultType="java.lang.String">
+	select id from member
+	where id = #{id}
+</select>
+<!-- 7-2. 닉네임 중복체크 -->
+<select id="nickNameCheck" resultType="java.lang.String">
+	select nickName from member
+	where id = #{id}
+</select>
+
+<!-- 8. 상태 변경 -->
+<update id="changeStatus">
+	update member set status = #{status}
+	where id = #{id}
+</update>
+
+<!-- 9. 등급변경 -->
+<update id="changeGradeNo">
+	update member set gradeNo = #{gradeNo}
+	where id = #{id}
+</update>
+</mapper>

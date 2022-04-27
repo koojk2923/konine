@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.old90.record.mapper.RecordMapper">
+
+<!-- 메인 -->
+<select id="recordList" resultType="com.old90.record.vo.RecordVO">
+	
+	select rnum, no, albumImage, albumName, artistName, relDate, hit
+	from(
+		select rownum rnum, no, albumImage, albumName, artistName, relDate, hit
+	 	from(
+			select no, albumImage, albumName, artistName, relDate,  hit
+			from song
+			order by no desc
+			)
+		)	
+	where rnum between #{startRow} and #{endRow}
+</select>
+
+<!-- 1-1.음반리스트 -->
+<select id="list" resultType="com.old90.record.vo.RecordVO">
+	select rnum, no, albumImage, albumName, artistName, relDate, hit
+	from(
+		select rownum rnum, no, albumImage, albumName, artistName, relDate, hit
+	 	from(
+			select no, albumImage, albumName, artistName, relDate,  hit
+			from song
+			<include refid="search" />
+			order by no desc
+			)
+		)	
+	where rnum between #{startRow} and #{endRow}
+</select>
+
+<!-- 1-2. 페이처리(전체 데이터 개수) -->
+<select id="getTotalRow" resultType="long">
+	select count(*) from song
+	<include refid="search" />
+</select>
+
+	<!-- 검색 조건 처리를 위한 태그 - 부분 태그 : sql :: 동적 쿼리 작성 -->
+	<sql id="search">
+		<if test="word != null and word != ''.toString">
+			where
+			<if test="key == 'a'.toString()">
+				albumName like '%' || #{word} || '%'
+			</if>
+			<if test="key == 'n'.toString()">
+				artistName like '%' || #{word} || '%'
+			</if>
+			<if test="key == 's'.toString()">
+				songTitle like '%' || #{word} || '%'
+			</if>
+			<if test="key == 'ans'.toString()">
+				albumName like '%' || #{word} || '%'
+				or artistName like '%' || #{word} || '%'
+				or songTitle like '%' || #{word} || '%'
+			</if>
+		</if>
+	</sql>
+
+<!-- 2-1. 음반보기 -->
+<select id="view" resultType="com.old90.record.vo.RecordVO">
+	select no, albumImage, albumName, artistName, relDate, genres, introduce, songTitle, hit, song
+	from song
+	where no = #{no} 
+</select>
+
+<!-- 2-2. 조회수 1증가 -->
+<update id="increase">
+	update song
+	set hit = hit + 1
+	where no = #{no}
+</update>
+
+<!-- 3.음반 등록 -->
+<insert id="write">
+	insert into song(no, albumName, artistName, songTitle, genres, introduce, relDate, albumImage, song)
+	values(song_seq.nextval, #{albumName}, #{artistName}, #{songTitle}, #{genres}, #{introduce}, #{relDate}, #{albumImage}, #{song})
+</insert>
+
+
+<!-- 4-1.이미지 사진 수정 -->
+<update id="changeImage">
+	update song set albumImage = #{albumImage}
+	where no = #{no}
+</update>
+
+<!-- 4-2. 음원 수정 -->
+<update id="changeSong">
+	update song set song = #{song}
+	where no = #{no}
+</update>
+
+<!-- 4-3. 음반 수정 -->
+<update id="update">
+	update song set albumName = #{albumName}, artistName = #{artistName}, songTitle = #{songTitle},
+	genres = #{genres}, introduce = #{introduce}, relDate = #{relDate}
+	where no = #{no}
+</update>
+
+<!-- 5. 음반 삭제 -->
+<delete id="delete">
+	delete from song
+	where no = #{no}
+</delete>
+
+<!-- 6. 음원 차트 리스트 -->
+<select id="songList" resultType="com.old90.record.vo.RecordVO">
+select rnum, no, albumImage, songTitle, albumName, artistName, hit
+from(
+	select rownum rnum, no, albumImage, songTitle, albumName, artistName, hit
+		from(
+			select no, albumImage, songTitle, albumName, artistName, hit
+			from song
+			order by hit desc
+			)
+		)
+		where rnum between #{startRow} and #{endRow}		
+</select>
+
+</mapper>
