@@ -27,4 +27,31 @@ public class Main{
 		System.out.println(count);
 
 	}
+	
+	/*
+	 * 1110번
+	 * 더하기 사이클 (두번째 방법)
+	 */
+	
+	public static void main(String[] args) {
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		int N = scanner.nextInt();
+		scanner.close();
+		
+		int copy = N;	// 들어온 입력값을 저장해야 한다.
+		int count = 0;	// 반복문 몇 번 반복이 되었는지 세어주는 변수;
+		
+		// do-while문
+		do {
+			N = ((N % 10) * 10) + (((N / 10) + (N % 10)) % 10);
+			count++;
+			System.out.println(N);
+		} while(copy != N);
+		
+		System.out.println(count);
+	}
+	
+	
 } // end of class
