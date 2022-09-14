@@ -1,25 +1,29 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
 import java.util.Arrays;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-public class Main {
-    	public static void  main(String[] agrs) {
+public class Main {	
+public static void main(String[] args) throws Exception {
 		
-		Scanner scanner = new Scanner(System.in);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		int N = scanner.nextInt();
-		int[] arr = new int[N]; // 입력받을 N의 정수로 배열의 길이 생성
+		// 입력받를 정수 N
+		//  readLine() 메서드는 값을 읽어올 때, String값으로 개행문자(엔터값)를 포함해 한줄을 전부 읽어오는 방식.
+		int N = Integer.parseInt(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		
-		//System.out.println(Arrays.toString(arr)); // 입력받은 길이는 3개 들어온 값은 없으므로 0출력
+		int index = 0;
+		int[] arr = new int[N];
 		
-		for(int i=0; i < N; i++) {
-			// arr[i] : 배열의 인덱스 번호는 0부터 시작한다. for문을 써서 배열의 인덱스의 값을 확인하다.
-			arr[i] = scanner.nextInt(); // 입력받은 정수를 for문의 반복횟수만큼 arr배열에 값을 넣어준다.
-			
+		//- StringTokenizer 클래스 객체에서 다음에 읽어 들일 token이 있으면 true, 없으면 false를 return한다.
+		while(st.hasMoreTokens()) {
+			// st.nextToken() 은 문자열을 반환하니 Integer.parseInt()로 int 형으로 변환
+			arr[index] = Integer.parseInt(st.nextToken()); // 토큰
+			index++;
 		}
-		scanner.close();
-		// Arrays.sort()메서드의 매개값으로 기본 타입 배열이나 String배열을 지정해주면 자동으로 오름차순 정렬이 됩니다.
-		Arrays.sort(arr);
-		System.out.println(arr[0] + " " + arr[N-1]);
 		
+		Arrays.sort(arr);
+		System.out.print(arr[0] + " " + arr[N - 1]);
 	}
-} // end of class
+}
