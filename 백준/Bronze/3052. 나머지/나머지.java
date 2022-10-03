@@ -49,4 +49,23 @@ public static void main(String[] args) {
 		System.out.println(h.size());
 		
 	}
+	
+	/*
+	 * 나머지 구하기
+	 * 3052번 - 세번째 방법
+	 * HashSet : Set 인터페이스의 구현 클랙스 이다.
+	 * 			 Set은 객체를 중복해서 저장할 수 없고 하나의 null값만 저장, 또한 저장 순서가 유지되지 않습니다.
+	 */
+	
+	public static void main(String[] args) throws IOException {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		HashSet<Integer> hashSet = new HashSet<Integer>();
+		
+		for(int i=0; i<10; i++) {
+			hashSet.add(Integer.parseInt(br.readLine()) %  42);
+		}
+		
+		System.out.println(hashSet.size());
+	}
 } // end of main
