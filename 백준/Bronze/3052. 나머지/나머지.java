@@ -29,4 +29,24 @@ public static void main(String[] args) {
 	scanner.close();	
     	System.out.println(count);
 	}
+	
+		/*
+	 * 나머지 구하기
+	 * 3052번 - 두번째 방법
+	 * HashSet : Set 인터페이스의 구현 클랙스 이다.
+	 * 			 Set은 객체를 중복해서 저장할 수 없고 하나의 null값만 저장, 또한 저장 순서가 유지되지 않습니다.
+	 */
+	
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		HashSet<Integer> h = new HashSet<Integer>();
+		
+		for(int i= 0; i < 10; i++) {
+			h.add(scanner.nextInt() % 42);
+			// 입력받은 값의 나머지 값을 add메소드를 통해 HashSet에 저장
+		}
+		
+		System.out.println(h.size());
+		
+	}
 } // end of main
