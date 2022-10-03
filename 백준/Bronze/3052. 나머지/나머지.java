@@ -68,4 +68,32 @@ public static void main(String[] args) {
 		
 		System.out.println(hashSet.size());
 	}
+	
+	/*
+	 * 나머지 구하기
+	 * 3052번 - 네번째 방법
+	 * boolean 배열을 생성한다.(boolean 배열의 default 값은 fasle 이다.)
+	 * 니머지가 나올수 있는 수는 0~41 이므로 길이가 42배열 생성
+	 */
+	
+	public static void main(String[] args) throws IOException {
+		
+		boolean[] blArr = new boolean[42];
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		for(int i=0; i < 10; i++) {
+			blArr[Integer.parseInt(br.readLine()) % 42] = true;
+			System.out.println(Arrays.toString(blArr));
+		}
+		
+		int count = 0;
+		for(boolean value : blArr) {
+			
+			if(value) { // value가  true라면
+				count++;
+			}
+		}
+		System.out.println(count);
+
+	}
 } // end of main
