@@ -44,7 +44,48 @@ public class Main {
 			System.out.printf("%.3f", avg_Over);	// 소수점 셋째 자리까지 출력한다.
 			System.out.println("%");
 			
-		}		
+		}	
+
+		/*
+		 * 문제 : 평균은 넘겠지
+		 * 번호 : 4344번
+		 * 두번째 방법
+		 */
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		 
+		int testCase = Integer.parseInt(br.readLine());
+		int[] arr;
+		
+		for(int i = 0; i < testCase; i++) {
+			
+			StringTokenizer st = new StringTokenizer(br.readLine(), " "); // 학생의 수 및 점수 입력
+			
+			int N = Integer.parseInt(st.nextToken());	
+			arr = new int[N];
+			
+			// 점수 부분
+			int sum = 0;	// 점수 총 합계 
+			for(int j = 0; j < N; j++) {
+				
+				int score = Integer.parseInt(st.nextToken());
+				arr[j] = score;
+				sum = sum + score;
+				
+			}
+			
+			int avg = sum / N;	//(총점수 / 학생의 수)
+			int count = 0;	// 평균 넘는 학생의 수
+			
+			for(int j = 0; j < N; j++) {
+				if(arr[j] > avg) {
+					count++;
+				}
+			}
+			
+			double val = ((double)count / N) * 100;
+			System.out.printf("%.3f%%\n", val);
+		}
 			         
         }
 }
